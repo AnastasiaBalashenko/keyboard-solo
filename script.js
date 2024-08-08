@@ -1,39 +1,29 @@
-const wordLetters = document.querySelectorAll('.word span');
+const wordHolder = document.querySelector('.word');
 let index = 0;
 
 function setRandomWord() {
-    const words = ['apple', 'lemon', 'grape', 'kiwi', 'banan', 'berry'];
+    const words = ['apple', 'lemon', 'grape', 'kiwi', 'banana', 'berry', 'blueberry'];
     const randomIndex = Math.floor(Math.random() * words.length);
     const randomWord = words[randomIndex];
 
-    wordLetters.forEach((letter, i) => {
-        letter.textContent = randomWord[i];
-    });
+    wordHolder.innerHTML = randomWord
+        .split("")
+        .map(char => `<span>${char}</span>`)
+        .join("");
 
     index = 0;
 }
 
 function handleInput(e) {
-    if (e.key === "Enter") {
-        setRandomWord();
-        wordLetters.forEach(letter => {
-            letter.classList.remove('w');
-            letter.classList.remove('c');
-        });
-        return;
-    }
+    const wordLetters = document.querySelectorAll('.word span');
 
     if (e.key === wordLetters[index].textContent) {
-        if (!wordLetters[index].classList.contains('c')) {
-            wordLetters[index].classList.remove('w');
-            wordLetters[index].classList.add('c');
-            index++;
+        wordLetters[index].classList.remove('w');
+        wordLetters[index].classList.add('c');
+        index++;
 
-            if (index === wordLetters.length) {
-                wordLetters.forEach(letter => {
-                    letter.classList.add('c');
-                });
-            }
+        if (index === wordLetters.length) {
+            setRandomWord();
         }
     } else {
         wordLetters[index].classList.add('w');
